@@ -9,4 +9,5 @@
 
 std::string playHotPotato(std::istream &in, const std::vector<unsigned> & numOfPasses)
 {
+    return "";
 }

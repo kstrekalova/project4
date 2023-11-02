@@ -17,6 +17,7 @@ QueueOfStrings::QueueOfStrings(const QueueOfStrings & st)
 
 QueueOfStrings & QueueOfStrings::operator=(const QueueOfStrings & st)
 {
+	return *this;
 }
 
 QueueOfStrings::~QueueOfStrings() 
