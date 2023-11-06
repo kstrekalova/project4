@@ -14,7 +14,14 @@ public:
 class QueueOfStrings
 {
 private:
-
+	struct Node {
+		Node(int v)
+		: value{v}, next{nullptr}	// not the best way to do this????
+		{}
+		int value;
+		Node* next;
+		};
+	Node * front; 		//LL constructor sets to null pointer
 
 public:
 	QueueOfStrings();
