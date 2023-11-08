@@ -2,94 +2,156 @@
 
 QueueOfStrings::QueueOfStrings()
 {
-		
-	// 2 examples
-	/*
-	class MyLibrary {
-public :
-	MyLibrary();
-private :
-size_t m_numBooks;		// MAX_BOOKS no longer exists
-Book ** m_shelves;		<< ** = pointer to array of pointers
-constexpr static size_t INITIAL_SHELF_SIZE = 5;
-size_t capacity;
-}
-MyLibrary::MyLibrary()
-	: m_numBooks{0}, m_shelves( new Book*[INTIAL_SHELF_SIZE] ),  
-	<< array of pointers m_capacity(INITIAL_SHELF_SIZE) )
-	*/
-	/*
-	class LinkedList{ 	// mini class within LinkedList
-		public: 
-		{
-		int sum() const noexcept;
-		bool contains(int x) const noexcept;
-		}
-		private:
-		{
-			struct Node {
-			Node(int v)
-			: value{v}, next{nullptr}	// not the best way to do this
-			{}
-			int value;
-			Node* next;
-			};
-			Node * front; 		//LL constructor sets to null pointer
-			Node * back;		// what changes if we did this?
-		}
-}
-
-	*/
+	beginning = nullptr;
 }
 
 // Be sure to do a "deep copy" -- if I 
 // make a copy and modify one, it should not affect the other. 
 QueueOfStrings::QueueOfStrings(const QueueOfStrings & st)
 {
+	Node * temp{ st.beginning };
+	Node * prevNode { st.beginning} ;	
+	// Throw QueueEmptyException if queueOfStrings is empty	// If problematic, delete
+	if ( temp == nullptr )
+	{
+		throw QueueEmptyException("queueOfStrings is empty");
+	}
+	
+	// Copy 1st node & save this queue's beginning as 1st node
+	Node * newNode = new Node( temp->value );
+	beginning = newNode;
+	prevNode = newNode;
+	temp = temp -> next;
 
+	// while value of temp->next is not a nullptr 
+	// as a result, values of all nodes of st are copied to newNode
+	while ( temp != nullptr )
+	{
+		newNode = new Node( temp -> value );
+		prevNode -> next = newNode;
+		temp = temp -> next;
+	}
 }
 
+/* Also creates a deep copy, but..... it's fine I don't care
+*/
 QueueOfStrings & QueueOfStrings::operator=(const QueueOfStrings & st)
 {
+	Node * temp{ st.beginning };
+	Node * prevNode { st.beginning} ;	
+	// Throw QueueEmptyException if queueOfStrings is empty	// If problematic, delete
+	if ( temp == nullptr )
+	{
+		throw QueueEmptyException("queueOfStrings is empty");
+	}
+	
+	// Copy 1st node & save this queue's beginning as 1st node
+	Node * newNode = new Node( temp->value );
+	beginning = newNode;
+	prevNode = newNode;
+	temp = temp -> next;
+
+	// while value of temp->next is not a nullptr 
+	// as a result, values of all nodes of st are copied to newNode
+	while ( temp != nullptr )
+	{
+		newNode = new Node( temp -> value );
+		prevNode -> next = newNode;
+		temp = temp -> next;
+	}
 	return *this;
 }
 
 QueueOfStrings::~QueueOfStrings() 
 {
+	// loooooop through every node & until you hit a nullptr, delete every node
+	Node * temp{ beginning };
+	Node * ptrToNext;
+	while ( temp != nullptr ) 
+	{
+		ptrToNext = temp -> next;
+		delete temp;
+		temp = ptrToNext;
+	}
 }
 
 
 size_t QueueOfStrings::size() const noexcept
 {
-	return 15; // stub, probably not the right answer.
+	// loop through every node & until you hit a nullptr, increment size
+	Node * temp{ beginning };
+	size_t size{0};
+	while ( temp != nullptr ) 
+	{
+		temp = temp -> next;
+		size++;
+	}
+	return size; 
 }
 
 
 bool QueueOfStrings::isEmpty() const noexcept
 {
-	return false; // stub, probably not the right answer.
+	if ( beginning == nullptr ) { return true; }
+	else { return false; } 
 }
 
 void QueueOfStrings::enqueue(const std::string & elem)
 {
-
+	// create new node
+	Node * newNode = new Node{ elem };
+	// if queue is empty, need to set beginning to newNode
+	if ( beginning == nullptr )
+	{
+		beginning = newNode;
+	}
+	else 
+	{
+		// find last node, set its next to newNode
+		Node * temp{ beginning };
+		while ( temp != nullptr )
+		{
+			temp = temp -> next;
+		}
+		temp -> next = newNode;
+	}
 }
 
-
+// both versions of front(), as well as dequeue(), throw a QueueEmptyException if called when empty.
 std::string & QueueOfStrings::front()
 {
-	throw QueueEmptyException{"Queue is Empty"};
+	if ( beginning == nullptr )
+	{
+		throw QueueEmptyException{"Queue is Empty"};
+	}
+	else 
+	{
+		return beginning -> value;
+	}
 }
 
 const std::string & QueueOfStrings::front() const
 {
-	throw QueueEmptyException{"Queue is Empty"};
+	if ( beginning == nullptr )
+	{
+		throw QueueEmptyException{"Queue is Empty"};
+	}
+	else 
+	{
+		return beginning -> value;
+	}
 }
-
 
 // does not return anything.  Just removes. 
 void QueueOfStrings::dequeue()
 {
+	// find last node, set its next to newNode
+	Node * temp{ beginning };
+	while ( temp -> next != nullptr )
+	{
+		temp = temp -> next;
+	}
+	delete temp;
 }
 
 

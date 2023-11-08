@@ -15,16 +15,16 @@ class QueueOfStrings
 {
 private:
 	struct Node {
-		Node(int v)
-		: value{v}, next{nullptr}	// not the best way to do this????
+		Node(std::string name)
+		: value{name}, next{nullptr}	
 		{}
-		int value;
+		std::string value;
 		Node* next;
 		};
-	Node * front; 		//LL constructor sets to null pointer
 
 public:
 	QueueOfStrings();
+	Node * beginning; 		// constructor sets to null pointer
 
 	// Note:  copy constructors are required.
 	// Be sure to do a "deep copy" -- if I 
@@ -41,6 +41,7 @@ public:
 
 
 	// both versions of front(), as well as dequeue(), throw a QueueEmptyException if called when empty.
+	// returns CONTENT of string at front
 	std::string & front();
 	const std::string & front() const;
 
