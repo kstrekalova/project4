@@ -29,6 +29,15 @@ TEST_CASE("MyFirstEnqueue", "[RequiredQueue]")
     REQUIRE( a.front() == "Mike" );
 }
 
+TEST_CASE("Dequeue; size; isEmpty", "[RequiredQueue]")
+{
+    QueueOfStrings a;
+    a.enqueue("Mike");
+    REQUIRE( a.size() == 1 );
+    REQUIRE( a.isEmpty() == false );
+    a.dequeue();
+    REQUIRE( a.size() == 0 );
+}
 
 TEST_CASE("FrontThrowsWhenNone", "[RequiredQueue]")
 {
@@ -44,13 +53,14 @@ TEST_CASE("SimpleHotPotato", "[RequiredHotPotato]")
     REQUIRE("Lakshmi" == playHotPotato(in, numOfPasses));
 }
 
-
-
-
-
-
-
-
-                        
-} // end namespace
+TEST_CASE("Copy constructor w/ =", "[RequiredQueue]")
+{
+    QueueOfStrings a;
+    QueueOfStrings b;
+    a.enqueue("Mike");
+    b = a;
+    REQUIRE(b.front() == "Mike");
+}
+                      
+} 
 

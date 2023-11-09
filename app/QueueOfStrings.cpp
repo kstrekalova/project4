@@ -142,16 +142,12 @@ const std::string & QueueOfStrings::front() const
 	}
 }
 
-// does not return anything.  Just removes. 
+// does not return anything.  Just removes the oldest node. 
 void QueueOfStrings::dequeue()
 {
-	// find last node, set its next to newNode
-	Node * temp{ beginning };
-	while ( temp -> next != nullptr )
-	{
-		temp = temp -> next;
-	}
-	delete temp;
+	Node * temp{ beginning -> next };
+	delete beginning ;
+	beginning = temp;
 }
 
 
